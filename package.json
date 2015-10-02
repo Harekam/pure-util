@@ -1,0 +1,32 @@
+{
+  "name": "pure-util",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Simple util module for common functions used in coding.",
+  "author": {
+    "name": "Harekam Singh",
+    "email": "harekamsingh@gmail.com"
+  },
+  "keywords": [
+    "moment",
+    "date",
+    "time",
+    "timezone",
+    "util",
+    "simple",
+    "function",
+    "tz",
+    "json",
+    "hash",
+    "object"
+  ],
+  "scripts": {
+    "start": "util.js"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "moment": "^2.10.6",
+    "moment-range": "^2.0.3",
+    "moment-timezone": "^0.4.0"
+  }
+}
