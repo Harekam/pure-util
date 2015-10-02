@@ -2,7 +2,7 @@
  * Created by harekam on 27/08/15.
  */
 
-var config = require('./config');
+var Config = require('./config');
 var moment = require('moment');
 require('moment-timezone');
 require('moment-range');
@@ -33,11 +33,10 @@ function isEmpty(obj) {
 }
 /**
  *
- * @param length
- * @param config typeOf Object having configurations like typeOfString(Num, Alpha, UpperAlpha, LowerAlpha) and customString
+ * @param Config typeOf Object having configurations like length, typeOfString(Num, Alpha, UpperAlpha, LowerAlpha) and customString
  * @returns {string}
  */
-function generateRandomString(length, config) {
+function generateRandomString(config) {
 
     var charsNumbers = '0123456789';
     var charsLower = 'abcdefghijklmnopqrstuvwxyz';
@@ -50,21 +49,21 @@ function generateRandomString(length, config) {
         chars = config.customString;
     else {
         switch (config.typeOfString) {
-            case config.TYPE_OF_STRING.NUM:
+            case Config.TYPE_OF_STRING.NUM:
                 chars = charsNumbers;
                 break;
-            case config.TYPE_OF_STRING.ALPHA:
+            case Config.TYPE_OF_STRING.ALPHA:
                 chars = charsLower + charsUpper;
                 break;
-            case config.TYPE_OF_STRING.UPPER_ALPHA:
+            case Config.TYPE_OF_STRING.UPPER_ALPHA:
                 chars = charsUpper;
                 break;
-            case config.TYPE_OF_STRING.LOWER_ALPHA:
+            case Config.TYPE_OF_STRING.LOWER_ALPHA:
                 chars = charsLower;
                 break;
         }
     }
-    if (!length) length = 32;
+    var length = !config.length ? 32 : config.length;
 
     var string = '';
 
@@ -81,7 +80,7 @@ function generateRandomString(length, config) {
  * @param timezone
  * @returns {boolean}
  */
-function validateTimezone(timezone) {
+function isValidTimezone(timezone) {
     var result = moment.tz.zone(timezone);
     return !isEmpty(result);
 }
@@ -97,7 +96,7 @@ function getRange(startDate, endDate, diffIn) {
 
     var dr = moment.range(startDate, endDate);
 
-    diffIn = !diffIn ? config.TIME_UNITS.HOURS : diffIn;
+    diffIn = !diffIn ? Config.TIME_UNITS.HOURS : diffIn;
 
     return dr.diff(diffIn);
 
@@ -161,7 +160,7 @@ function createHashFromArrayOfObjects(data, key) {
 }
 function formatDateTime(datetime, format, inMomentObject) {
 
-    format = !format ? config.JAVASCRIPT_TIMESTAMP_FORMAT : format;
+    format = !format ? Config.JAVASCRIPT_TIMESTAMP_FORMAT : format;
 
     var momentDateTime = moment(datetime).format(format);
 
@@ -170,8 +169,8 @@ function formatDateTime(datetime, format, inMomentObject) {
     return new Date(momentDateTime);
 }
 function getLocalTimestamp(datetime, timezone, format) {
-    format = !format ? config.JAVASCRIPT_TIMESTAMP_FORMAT : format;
-    timezone = !timezone ? config.TIMEZONE_INDIA : timezone;
+    format = !format ? Config.JAVASCRIPT_TIMESTAMP_FORMAT : format;
+    if (!timezone) return datetime;
     var dateTimeLocal = moment.tz(datetime, timezone);
     return dateTimeLocal.format(format);
 }
@@ -241,7 +240,7 @@ module.exports = {
     isEmpty: isEmpty,
     makeArrayOfKey: makeArrayOfKey,
     getRange: getRange,
-    validateTimezone: validateTimezone,
+    isValidTimezone: isValidTimezone,
     generateRandomString: generateRandomString,
     getCustomDate: getCustomDate,
     getLocalTimestamp: getLocalTimestamp,
