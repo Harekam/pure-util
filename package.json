@@ -1,7 +1,6 @@
 {
   "name": "pure-util",
   "version": "0.0.1",
-  "private": true,
   "description": "Simple util module for common functions used in coding.",
   "author": {
     "name": "Harekam Singh",
